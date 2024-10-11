@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish Confirmation</title>
+    <style>
+        /* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Container */
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+/* Card Styling */
+.card {
+    width: 100%;
+    padding: 30px;
+    background-color: #f9f9fc;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Wish Details List */
+.wish-details {
+    list-style-type: none;
+    margin: 15px 0;
+    padding: 0;
+}
+
+.wish-details li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.wish-details li:last-child {
+    border-bottom: none;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+/* Button Styles */
+.button {
+    padding: 12px 20px;
+    background-color: #82c4c3;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #68a7a6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    .button {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Wish Submitted Successfully</h1>
+            <p>Your wish has been submitted with ID: <strong><%= wishId %></strong></p>
+
+            <h2>Wish Details:</h2>
+            <ul class="wish-details">
+                <li><strong>Title:</strong> <%= wish.title %></li>
+                <li><strong>Description:</strong> <%= wish.description %></li>
+                <li><strong>Category:</strong> <%= wish.category %></li>
+                <li><strong>Fulfillment Type:</strong> <%= wish.fulfillmentType %></li>
+                <li><strong>Urgency:</strong> <%= wish.urgency ? 'Urgent' : 'Normal' %></li>
+                <li><strong>Visibility:</strong> <%= wish.visibility %></li>
+                <li><strong>Allow Messaging:</strong> <%= wish.allowMessaging ? 'Yes' : 'No' %></li>
+                <li><strong>Tags:</strong> <%= wish.tags.join(', ') %></li>
+            </ul>
+
+            <div class="button-group">
+                <a href="/" class="button">Back to Home</a>
+                <a href="/wishes" class="button">View All Wishes</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

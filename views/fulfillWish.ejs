@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fulfill Wish</title>
+</head>
+<body>
+    <h1>Fulfill Wish</h1>
+    <p>Provide details about how you are fulfilling the wish:</p>
+    
+    <form action="/wish/fulfill/<%= wish.id %>" method="POST">
+      <textarea name="fulfillmentDetails" placeholder="Describe how you helped"></textarea>
+      <button type="submit">Submit</button>
+    </form>
+    
+    
+</body>
+</html>

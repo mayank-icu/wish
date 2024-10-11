@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Wishes</title>
+    <style>
+        /* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f4f4f9;
+}
+
+/* Main Container */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form Styling */
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Button */
+button {
+    padding: 12px;
+    background-color: #82c4c3;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #68a7a6;
+}
+
+/* Wish List Styling */
+.wish-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.wish-item {
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9fc;
+}
+
+.urgent {
+    color: red;
+}
+
+/* Navigation Links */
+.navigation {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.navigation a {
+    margin: 0 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <!-- wishes.ejs -->
+<div class="container">
+    <h1>All Wishes</h1>
+    
+    <form action="/wishes" method="GET" class="filter-form">
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select name="category" id="category">
+                <option value="">All</option>
+                <option value="emotional">Emotional Support</option>
+                <option value="educational">Educational Help</option>
+                <option value="lifeadvice">Life Advice</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="urgency" value="true">
+                Urgent only
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label for="fulfillmentType">Fulfillment Type:</label>
+            <select name="fulfillmentType" id="fulfillmentType">
+                <option value="">All</option>
+                <option value="single">Single Fulfillment</option>
+                <option value="multiple">Multiple Fulfillers</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="tags">Tags (comma-separated):</label>
+            <input type="text" name="tags" id="tags">
+        </div>
+        
+        <div class="form-group">
+            <label for="sort">Sort by:</label>
+            <select name="sort" id="sort">
+                <option value="recent">Most Recent</option>
+                <option value="urgent">Most Urgent</option>
+            </select>
+        </div>
+        
+        <button type="submit">Apply Filters</button>
+    </form>
+
+    <% if (wishes.length > 0) { %>
+        <ul class="wish-list">
+        <% wishes.forEach(function(wish) { %>
+            <li class="wish-item">
+                <h3><%= wish.title %></h3>
+                <p><%= wish.description %></p>
+                <p>Category: <%= wish.category %></p>
+                <p>Fulfillment Type: <%= wish.fulfillmentType %></p>
+                <% if (wish.urgency) { %>
+                    <p class="urgent"><strong>Urgent</strong></p>
+                <% } %>
+                <p>Tags: <%= wish.tags.join(', ') %></p>
+                <% if (user) { %>
+                    <!-- View details link -->
+                    <a href="/wish/<%= wish.id %>" class="button">View Details</a>
+
+                    <!-- Fulfill wish link if eligible -->
+                    <% if (wish.status === 'open' || (wish.fulfillmentType === 'multiple' && wish.status === 'in progress')) { %>
+                        <a href="/fulfill-wish/<%= wish.id %>" class="button">Fulfill Wish</a>
+                    <% } %>
+
+                    <!-- Display wish status -->
+                    <p>Status: <%= wish.status %></p>
+
+                    <!-- Show messaging option if fulfilled and messaging allowed -->
+                    <% if (wish.status === 'fulfilled' && wish.allowMessaging) { %>
+                        <button onclick="alert('Messaging functionality coming soon')">Message Wish Creator</button>
+                    <% } %>
+                <% } %>
+            </li>
+        <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No wishes found.</p>
+    <% } %>
+
+    <div class="navigation">
+        <a href="/">Back to Home</a>
+        <% if (user) { %>
+            <a href="/submit-wish">Submit a Wish</a>
+        <% } %>
+    </div>
+</div>
+
+</body>
+</html>
